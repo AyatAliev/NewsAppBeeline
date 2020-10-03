@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/item_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toStartOf="@id/item_image"
+        android:ellipsize="end"
+        android:textSize="@dimen/item_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/item_tv_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@id/item_image"
+        android:ellipsize="end"
+        android:textSize="@dimen/item_desc" />
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="centerCrop" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detailFragment.DetailFragment">
+
+    <ImageView
+        android:id="@+id/da_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/da_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/da_image"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/item_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/da_description"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/da_title"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/item_desc" />
+
+    <TextView
+        android:id="@+id/tv_data"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/da_description"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_data"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_time"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_url"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_btn_url"
+        android:text="Перейти на сайт"
+        android:textAllCaps="false" />
+</RelativeLayout>
