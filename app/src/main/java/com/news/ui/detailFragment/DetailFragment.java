@@ -39,7 +39,7 @@ public class DetailFragment extends Fragment {
         return v;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     private void init() {
         title.setText(getArguments().getString("title"));
         desc.setText(getArguments().getString("desc"));

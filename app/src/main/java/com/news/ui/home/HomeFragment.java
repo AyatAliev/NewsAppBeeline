@@ -59,25 +59,25 @@ public class HomeFragment extends Fragment {
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(() -> fetchCurrentNews(""));
+        swipeRefreshLayout.setOnRefreshListener(() -> fetchCurrentNews());
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         internet = root.findViewById(R.id.internet);
         internet_check_image = root.findViewById(R.id.image_dis);
         btn_try_again = root.findViewById(R.id.try_again);
         setUpAdapter();
-        onLoadingSwipeRefresh("");
+        onLoadingSwipeRefresh();
         return root;
     }
 
-    private void fetchCurrentNews(String keyword) {
+    private void fetchCurrentNews() {
         internet.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(true);
         keywordDown();
     }
 
-    private void onLoadingSwipeRefresh(final String keyword) {
+    private void onLoadingSwipeRefresh() {
         swipeRefreshLayout.post(
-                () -> fetchCurrentNews(keyword)
+                () -> fetchCurrentNews()
         );
     }
 
@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
             internet.setVisibility(View.VISIBLE);
         }
         internet_check_image.setImageResource(imageView);
-        btn_try_again.setOnClickListener(v -> onLoadingSwipeRefresh(""));
+        btn_try_again.setOnClickListener(v -> onLoadingSwipeRefresh());
 
     }
 

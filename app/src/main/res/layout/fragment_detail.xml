@@ -64,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:textColor="@android:color/white"
         android:background="@drawable/bg_btn_url"
         android:text="Перейти на сайт"
+        android:textColor="@android:color/white"
         android:textAllCaps="false" />
 </RelativeLayout>

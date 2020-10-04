@@ -66,5 +66,6 @@
         android:layout_marginBottom="15dp"
         android:background="@drawable/bg_btn_url"
         android:text="Перейти на сайт"
+        android:textColor="@android:color/white"
         android:textAllCaps="false" />
 </RelativeLayout>
