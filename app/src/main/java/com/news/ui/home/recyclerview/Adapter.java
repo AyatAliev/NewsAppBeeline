@@ -25,13 +25,19 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.news.R;
 import com.news.ui.model.Article;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<Article> list;
 
-    public Adapter(List<Article> list) {
-        this.list = list;
+    public Adapter() {
+        list = new ArrayList<>();
+    }
+
+    public void addArticle(List<Article> articles){
+        list.addAll(articles);
         notifyDataSetChanged();
     }
 

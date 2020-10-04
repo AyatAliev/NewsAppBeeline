@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment {
     private List<Article> articleArrayList = new ArrayList<>();
     private ImageView internet_check_image;
     private Button btn_try_again;
-    private int list = 1, lists = 10;
 
     public static final String API_KEY = "a20bce6e5bce44daa29fca6eeb55b261";
 
@@ -82,39 +81,14 @@ public class HomeFragment extends Fragment {
         );
     }
 
-/*    private void freshDown(int list, int lists) {
-        NewsApiClient.getService().getNewsDown("", Utils.getCountry(), API_KEY, list, lists).enqueue(new Callback<News>() {
-            @Override
-            public void onResponse(Call<News> call, Response<News> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    if (articleArrayList != null) {
-                        articleArrayList = response.body().getArticle();
-                        adapter = new Adapter(articleArrayList);
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                } else {
-                    swipeRefreshLayout.setRefreshing(false);
-                    showErrorMessage(
-                            R.drawable.ic_enternet);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<News> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                showErrorMessage(
-                        R.drawable.ic_enternet);
-            }
-        });
-    }*/
-
     private void keywordDown() {
         NewsApiClient.getService().getNews(Utils.getCountry(), API_KEY).enqueue(new Callback<News>() {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    recyclerView.setVisibility(View.VISIBLE);
                     articleArrayList = response.body().getArticle();
-                    adapter = new Adapter(articleArrayList);
+                    adapter.addArticle(articleArrayList);
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
@@ -145,8 +119,9 @@ public class HomeFragment extends Fragment {
 
     private void setUpAdapter() {
         recyclerView = root.findViewById(R.id.fh_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new Adapter();
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
