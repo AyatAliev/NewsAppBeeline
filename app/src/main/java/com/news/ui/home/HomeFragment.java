@@ -1,5 +1,7 @@
 package com.news.ui.home;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.news.MainActivity;
 import com.news.R;
 import com.news.Utils;
 import com.news.ui.api.NewsApiClient;
@@ -27,6 +31,7 @@ import com.news.ui.home.recyclerview.Adapter;
 import com.news.ui.model.Article;
 import com.news.ui.model.News;
 
+import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private Adapter adapter;
@@ -45,6 +50,7 @@ public class HomeFragment extends Fragment{
     private List<Article> articleArrayList = new ArrayList<>();
     private ImageView internet_check_image;
     private Button btn_try_again;
+    private int list = 1, lists = 10;
 
     public static final String API_KEY = "a20bce6e5bce44daa29fca6eeb55b261";
 
@@ -55,7 +61,7 @@ public class HomeFragment extends Fragment{
         root = inflater.inflate(R.layout.fragment_home, container, false);
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(() -> fetchCurrentNews(""));
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         internet = root.findViewById(R.id.internet);
         internet_check_image = root.findViewById(R.id.image_dis);
         btn_try_again = root.findViewById(R.id.try_again);
@@ -74,8 +80,33 @@ public class HomeFragment extends Fragment{
         swipeRefreshLayout.post(
                 () -> fetchCurrentNews(keyword)
         );
-
     }
+
+/*    private void freshDown(int list, int lists) {
+        NewsApiClient.getService().getNewsDown("", Utils.getCountry(), API_KEY, list, lists).enqueue(new Callback<News>() {
+            @Override
+            public void onResponse(Call<News> call, Response<News> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (articleArrayList != null) {
+                        articleArrayList = response.body().getArticle();
+                        adapter = new Adapter(articleArrayList);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                } else {
+                    swipeRefreshLayout.setRefreshing(false);
+                    showErrorMessage(
+                            R.drawable.ic_enternet);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<News> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
+                showErrorMessage(
+                        R.drawable.ic_enternet);
+            }
+        });
+    }*/
 
     private void keywordDown() {
         NewsApiClient.getService().getNews(Utils.getCountry(), API_KEY).enqueue(new Callback<News>() {
@@ -84,7 +115,6 @@ public class HomeFragment extends Fragment{
                 if (response.isSuccessful() && response.body() != null) {
                     articleArrayList = response.body().getArticle();
                     adapter = new Adapter(articleArrayList);
-                    recyclerView.setAdapter(adapter);
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
@@ -104,6 +134,7 @@ public class HomeFragment extends Fragment{
     }
 
     private void showErrorMessage(int imageView) {
+        recyclerView.setVisibility(View.GONE);
         if (internet.getVisibility() == View.GONE) {
             internet.setVisibility(View.VISIBLE);
         }
@@ -115,6 +146,7 @@ public class HomeFragment extends Fragment{
     private void setUpAdapter() {
         recyclerView = root.findViewById(R.id.fh_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 

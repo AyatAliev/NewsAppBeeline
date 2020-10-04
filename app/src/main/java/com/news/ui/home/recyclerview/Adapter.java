@@ -24,7 +24,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.news.R;
-import com.news.ui.detailFragment.DetailFragment;
 import com.news.ui.model.Article;
 import java.util.List;
 
