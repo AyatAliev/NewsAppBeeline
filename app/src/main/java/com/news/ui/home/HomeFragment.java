@@ -41,7 +41,6 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
     private Adapter adapter;
     private View root;
     private RecyclerView recyclerView;
@@ -55,8 +54,6 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(() -> fetchCurrentNews());
