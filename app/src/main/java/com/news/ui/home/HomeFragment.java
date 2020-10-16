@@ -3,6 +3,7 @@ package com.news.ui.home;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,14 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ConstraintLayout internet;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private List<Article> articleArrayList = new ArrayList<>();
+    private List<Article> articleArrayList;
     private ImageView internet_check_image;
     private Button btn_try_again;
+    private List<Article> articles = new ArrayList<>();
+    private NestedScrollView nestedScrollView;
+    private ConnectivityManager connectivityManager;
+    int pageSize = 10;
+    int page = 1;
 
     public static final String API_KEY = "a20bce6e5bce44daa29fca6eeb55b261";
 
@@ -61,6 +67,7 @@ public class HomeFragment extends Fragment {
         internet = root.findViewById(R.id.internet);
         internet_check_image = root.findViewById(R.id.image_dis);
         btn_try_again = root.findViewById(R.id.try_again);
+        connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         setUpAdapter();
         onLoadingSwipeRefresh();
         return root;
@@ -79,7 +86,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void keywordDown() {
-        NewsApiClient.getService().getNews(Utils.getCountry(), API_KEY).enqueue(new Callback<News>() {
+        NewsApiClient.getService().getNewsDown(Utils.getCountry(), API_KEY,page,pageSize).enqueue(new Callback<News>() {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (response.isSuccessful() && response.body() != null) {

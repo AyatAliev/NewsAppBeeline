@@ -5,26 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff">
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="0dp">
+            android:layout_height="match_parent"
+            android:background="#fff">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fh_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_news"
-                />
-        </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/internet_check" />
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fh_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_news" />
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <include layout="@layout/internet_check" /></RelativeLayout>
