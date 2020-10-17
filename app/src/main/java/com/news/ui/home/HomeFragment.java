@@ -3,27 +3,20 @@ package com.news.ui.home;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.news.MainActivity;
 import com.news.R;
 import com.news.Utils;
 import com.news.ui.api.NewsApiClient;
@@ -44,15 +37,14 @@ public class HomeFragment extends Fragment {
 
     private Adapter adapter;
     private View root;
-    private RecyclerView recyclerView;
     private ConstraintLayout internet;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<Article> articleArrayList;
     private ImageView internet_check_image;
     private Button btn_try_again;
+    private RecyclerView recyclerView;
     private List<Article> articles = new ArrayList<>();
-    private NestedScrollView nestedScrollView;
-    private ConnectivityManager connectivityManager;
+    private boolean isLoading = false;
     int pageSize = 10;
     int page = 1;
 
@@ -67,10 +59,44 @@ public class HomeFragment extends Fragment {
         internet = root.findViewById(R.id.internet);
         internet_check_image = root.findViewById(R.id.image_dis);
         btn_try_again = root.findViewById(R.id.try_again);
-        connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         setUpAdapter();
         onLoadingSwipeRefresh();
+        updateDown();
         return root;
+    }
+
+    private void updateDown() {
+        RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
+                int firstVisibleItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                if (!isLoading) {
+                    if ((visibleItemCount + firstVisibleItems) >= totalItemCount) {
+                        isLoading = true;
+                        page++;
+                        pageSize = +10;
+                        NewsApiClient.getService().getNewsDown(Utils.getCountry(), API_KEY, page, pageSize).enqueue(new Callback<News>() {
+                            @Override
+                            public void onResponse(Call<News> call, Response<News> response) {
+                                assert response.body() != null;
+                                adapter.addArticle(response.body().getArticle());
+                                adapter.notifyDataSetChanged();
+                                isLoading = false;
+                            }
+
+                            @Override
+                            public void onFailure(Call<News> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        recyclerView.setOnScrollListener(scrollListener);
     }
 
     private void fetchCurrentNews() {
@@ -86,7 +112,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void keywordDown() {
-        NewsApiClient.getService().getNewsDown(Utils.getCountry(), API_KEY,page,pageSize).enqueue(new Callback<News>() {
+        NewsApiClient.getService().getNewsDown(Utils.getCountry(), API_KEY, page, pageSize).enqueue(new Callback<News>() {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (response.isSuccessful() && response.body() != null) {

@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -17,5 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_news" />
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <include layout="@layout/internet_check" /></RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/internet_check" />
+</RelativeLayout>
